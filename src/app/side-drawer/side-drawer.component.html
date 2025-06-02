@@ -1,0 +1,19 @@
+<div class="side-drawer">
+    <nav class="drawer-nav">
+      <ul class="menu-list">
+        <li 
+          *ngFor="let item of menuItems" 
+          class="menu-item"
+          [class.active]="isActive(item)"
+          (click)="onItemClick(item)"
+        >
+          <div class="menu-item-content">
+            <div class="icon-container">
+              <span class="icon" [innerHTML]="item.icon"></span>
+            </div>
+            <span class="label">{{ item.label }}</span>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>

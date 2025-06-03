@@ -1,37 +1,40 @@
 <div class="task-form-container">
-    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
-      <!-- First Row: Task Title, Task Type, Dates -->
-      <div class="form-row">
-        <div class="form-group">
-          <label for="taskTitle">Task Title</label>
-          <input 
-            type="text" 
-            id="taskTitle" 
-            formControlName="taskTitle"
-            class="form-control"
-            [class.error]="isFieldInvalid('taskTitle')"
-          />
-          <div class="error-message" *ngIf="isFieldInvalid('taskTitle')">
-            Task title is required
-          </div>
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+    <!-- First Row: Task Title, Task Type, Dates -->
+    <div class="form-row">
+      <div class="form-field">
+        <label for="taskTitle">Task Title</label>
+        <input 
+          type="text" 
+          id="taskTitle" 
+          formControlName="taskTitle"
+          class="form-control"
+          [class.error]="isFieldInvalid('taskTitle')"
+          placeholder="Enter task title"
+        />
+        <div class="error-message" *ngIf="isFieldInvalid('taskTitle')">
+          Task title is required
         </div>
-  
-        <div class="form-group">
-          <label for="taskType">Task Type</label>
-          <input 
-            type="text" 
-            id="taskType" 
-            formControlName="taskType"
-            class="form-control"
-            [class.error]="isFieldInvalid('taskType')"
-          />
-          <div class="error-message" *ngIf="isFieldInvalid('taskType')">
-            Task type is required
-          </div>
+      </div>
+
+      <div class="form-field">
+        <label for="taskType">Task Type</label>
+        <input 
+          type="text" 
+          id="taskType" 
+          formControlName="taskType"
+          class="form-control"
+          [class.error]="isFieldInvalid('taskType')"
+          placeholder="Enter task type"
+        />
+        <div class="error-message" *ngIf="isFieldInvalid('taskType')">
+          Task type is required
         </div>
-  
-        <div class="form-group">
-          <label for="taskStartDate">Task Start Date</label>
+      </div>
+
+      <div class="form-field">
+        <label for="taskStartDate">Task Start Date</label>
+        <div class="date-input-wrapper">
           <input 
             type="date" 
             id="taskStartDate" 
@@ -39,13 +42,16 @@
             class="form-control date-input"
             [class.error]="isFieldInvalid('taskStartDate')"
           />
-          <div class="error-message" *ngIf="isFieldInvalid('taskStartDate')">
-            Start date is required
-          </div>
+          <span class="calendar-icon">📅</span>
         </div>
-  
-        <div class="form-group">
-          <label for="taskEndDate">Task End Date</label>
+        <div class="error-message" *ngIf="isFieldInvalid('taskStartDate')">
+          Start date is required
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="taskEndDate">Task End Date</label>
+        <div class="date-input-wrapper">
           <input 
             type="date" 
             id="taskEndDate" 
@@ -53,33 +59,35 @@
             class="form-control date-input"
             [class.error]="isFieldInvalid('taskEndDate')"
           />
-          <div class="error-message" *ngIf="isFieldInvalid('taskEndDate')">
-            End date is required
-          </div>
+          <span class="calendar-icon">📅</span>
+        </div>
+        <div class="error-message" *ngIf="isFieldInvalid('taskEndDate')">
+          End date is required
         </div>
       </div>
-  
-      <!-- Second Row: Task Description -->
-      <div class="form-row">
-        <div class="form-group full-width">
-          <label for="taskDescription">Task Description</label>
-          <textarea 
-            id="taskDescription" 
-            formControlName="taskDescription"
-            rows="4"
-            class="form-control textarea"
-            [class.error]="isFieldInvalid('taskDescription')"
-          ></textarea>
-          <div class="error-message" *ngIf="isFieldInvalid('taskDescription')">
-            Task description is required
-          </div>
-        </div>
+    </div>
+
+    <!-- Second Row: Task Description -->
+    <div class="form-group">
+      <label for="taskDescription">Task Description</label>
+      <textarea 
+        id="taskDescription" 
+        formControlName="taskDescription"
+        rows="4"
+        class="form-control textarea"
+        [class.error]="isFieldInvalid('taskDescription')"
+        placeholder="Enter task description"
+      ></textarea>
+      <div class="error-message" *ngIf="isFieldInvalid('taskDescription')">
+        Task description is required
       </div>
-  
-      <!-- Third Row: Assign to, Priority, Task Assigning -->
-      <div class="form-row">
-        <div class="form-group">
-          <label for="assignTo">Assign to</label>
+    </div>
+
+    <!-- Third Row: Assign to, Priority, Task Assigning -->
+    <div class="form-row">
+      <div class="form-field">
+        <label for="assignTo">Assign to</label>
+        <div class="select-wrapper">
           <select 
             id="assignTo" 
             formControlName="assignTo"
@@ -91,80 +99,88 @@
             <option value="john-doe">John Doe</option>
             <option value="jane-smith">Jane Smith</option>
           </select>
-          <div class="error-message" *ngIf="isFieldInvalid('assignTo')">
-            Please assign to someone
-          </div>
+          <span class="dropdown-arrow">▼</span>
         </div>
-  
-        <div class="form-group">
-          <label>Priority</label>
-          <div class="tag-container">
-            <span 
-              class="tag priority-tag"
-              [class.selected]="taskForm.get('priority')?.value === 'high'"
-              (click)="setPriority('high')"
-            >
-              High
-              <span class="remove-tag" *ngIf="taskForm.get('priority')?.value === 'high'" (click)="removePriority($event)">×</span>
-            </span>
-            <span 
-              class="tag priority-tag"
-              [class.selected]="taskForm.get('priority')?.value === 'medium'"
-              (click)="setPriority('medium')"
-            >
-              Medium
-              <span class="remove-tag" *ngIf="taskForm.get('priority')?.value === 'medium'" (click)="removePriority($event)">×</span>
-            </span>
-            <span 
-              class="tag priority-tag"
-              [class.selected]="taskForm.get('priority')?.value === 'low'"
-              (click)="setPriority('low')"
-            >
-              Low
-              <span class="remove-tag" *ngIf="taskForm.get('priority')?.value === 'low'" (click)="removePriority($event)">×</span>
-            </span>
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <label>Task Assigning</label>
-          <div class="tag-container">
-            <span 
-              class="tag status-tag"
-              [class.selected]="taskForm.get('taskAssigning')?.value === 'pending'"
-              (click)="setTaskAssigning('pending')"
-            >
-              Pending
-              <span class="remove-tag" *ngIf="taskForm.get('taskAssigning')?.value === 'pending'" (click)="removeTaskAssigning($event)">×</span>
-            </span>
-            <span 
-              class="tag status-tag"
-              [class.selected]="taskForm.get('taskAssigning')?.value === 'in-progress'"
-              (click)="setTaskAssigning('in-progress')"
-            >
-              In Progress
-              <span class="remove-tag" *ngIf="taskForm.get('taskAssigning')?.value === 'in-progress'" (click)="removeTaskAssigning($event)">×</span>
-            </span>
-            <span 
-              class="tag status-tag"
-              [class.selected]="taskForm.get('taskAssigning')?.value === 'completed'"
-              (click)="setTaskAssigning('completed')"
-            >
-              Completed
-              <span class="remove-tag" *ngIf="taskForm.get('taskAssigning')?.value === 'completed'" (click)="removeTaskAssigning($event)">×</span>
-            </span>
-          </div>
+        <div class="error-message" *ngIf="isFieldInvalid('assignTo')">
+          Please assign to someone
         </div>
       </div>
-  
-      <!-- Action Buttons -->
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" (click)="onDelete()">
-          Delete
-        </button>
-        <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">
-          Create
-        </button>
+
+      <div class="form-field">
+        <label>Priority</label>
+        <div class="tag-group">
+          <span 
+            class="tag priority-tag"
+            [class.selected]="taskForm.get('priority')?.value === 'high'"
+            [class.high]="taskForm.get('priority')?.value === 'high'"
+            (click)="setPriority('high')"
+          >
+            High
+            <span class="remove-tag" *ngIf="taskForm.get('priority')?.value === 'high'" (click)="removePriority($event)">×</span>
+          </span>
+          <span 
+            class="tag priority-tag"
+            [class.selected]="taskForm.get('priority')?.value === 'medium'"
+            [class.medium]="taskForm.get('priority')?.value === 'medium'"
+            (click)="setPriority('medium')"
+          >
+            Medium
+            <span class="remove-tag" *ngIf="taskForm.get('priority')?.value === 'medium'" (click)="removePriority($event)">×</span>
+          </span>
+          <span 
+            class="tag priority-tag"
+            [class.selected]="taskForm.get('priority')?.value === 'low'"
+            [class.low]="taskForm.get('priority')?.value === 'low'"
+            (click)="setPriority('low')"
+          >
+            Low
+            <span class="remove-tag" *ngIf="taskForm.get('priority')?.value === 'low'" (click)="removePriority($event)">×</span>
+          </span>
+        </div>
       </div>
-    </form>
-  </div>
+
+      <div class="form-field">
+        <label>Task Status</label>
+        <div class="tag-group">
+          <span 
+            class="tag status-tag"
+            [class.selected]="taskForm.get('taskAssigning')?.value === 'pending'"
+            [class.pending]="taskForm.get('taskAssigning')?.value === 'pending'"
+            (click)="setTaskAssigning('pending')"
+          >
+            Pending
+            <span class="remove-tag" *ngIf="taskForm.get('taskAssigning')?.value === 'pending'" (click)="removeTaskAssigning($event)">×</span>
+          </span>
+          <span 
+            class="tag status-tag"
+            [class.selected]="taskForm.get('taskAssigning')?.value === 'in-progress'"
+            [class.in-progress]="taskForm.get('taskAssigning')?.value === 'in-progress'"
+            (click)="setTaskAssigning('in-progress')"
+          >
+            In Progress
+            <span class="remove-tag" *ngIf="taskForm.get('taskAssigning')?.value === 'in-progress'" (click)="removeTaskAssigning($event)">×</span>
+          </span>
+          <span 
+            class="tag status-tag"
+            [class.selected]="taskForm.get('taskAssigning')?.value === 'completed'"
+            [class.completed]="taskForm.get('taskAssigning')?.value === 'completed'"
+            (click)="setTaskAssigning('completed')"
+          >
+            Completed
+            <span class="remove-tag" *ngIf="taskForm.get('taskAssigning')?.value === 'completed'" (click)="removeTaskAssigning($event)">×</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="form-actions">
+      <button type="button" class="btn-delete" (click)="onDelete()">
+        Delete
+      </button>
+      <button type="submit" class="btn-create" [disabled]="taskForm.invalid">
+        Create
+      </button>
+    </div>
+  </form>
+</div>

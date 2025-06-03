@@ -1,0 +1,91 @@
+<!-- project-form.component.html -->
+<form [formGroup]="form" class="project-form">
+  <div class="form-row">
+    <div class="form-field">
+      <label for="title">Project Title</label>
+      <input 
+        id="title"
+        formControlName="title" 
+        type="text" 
+        placeholder=""
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="type">Project Type</label>
+      <input 
+        id="type"
+        formControlName="type" 
+        type="text" 
+        placeholder=""
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="startDate">Start Date</label>
+      <div class="date-input-wrapper">
+        <input 
+          id="startDate"
+          formControlName="startDate" 
+          type="date"
+          placeholder="DD/MM/YYYY"
+        />
+        <span class="calendar-icon">📅</span>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="endDate">End Date</label>
+      <div class="date-input-wrapper">
+        <input 
+          id="endDate"
+          formControlName="endDate" 
+          type="date"
+          placeholder="DD/MM/YYYY"
+        />
+        <span class="calendar-icon">📅</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Project Description</label>
+    <textarea 
+      id="description"
+      formControlName="description" 
+      rows="4"
+      placeholder=""
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Project Roles</label>
+    <div class="dropdown">
+      <div class="dropdown-header">
+        <span class="dropdown-label">Team Lead</span>
+        <span class="dropdown-arrow">▼</span>
+      </div>
+      <div class="dropdown-list">
+        <ng-container *ngFor="let control of projectRoles.controls; let i = index">
+          <div [formGroup]="getProjectRoleGroup(i)" class="role-item">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                formControlName="selected"
+                class="checkbox-input"
+              />
+              <span class="checkbox-custom"></span>
+              <span class="role-name">{{ getProjectRoleGroup(i).value.name }}</span>
+              <span class="role-title">{{ getProjectRoleGroup(i).value.role }}</span>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-delete" (click)="onDelete()">Delete</button>
+    <button type="button" class="btn-create" (click)="onCreate()">Create</button>
+  </div>
+</form>

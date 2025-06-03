@@ -1,16 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+
 import { NavbarComponent } from './navbar/navbar.component';
 import { TaskCreationFormComponent } from './task-creation-form/task-creation-form.component';
 import { SideDrawerComponent } from './side-drawer/side-drawer.component';
+import { ProjectCreationFormComponent } from './project-creation-form/project-creation-form.component';
+
+import { SideDrawerService } from './side-drawer/side-drawer.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    CommonModule, 
     RouterOutlet,
+    HttpClientModule,
     NavbarComponent,
     TaskCreationFormComponent,
+    ProjectCreationFormComponent,
     SideDrawerComponent,
   ],
   template: `
@@ -21,8 +30,22 @@ import { SideDrawerComponent } from './side-drawer/side-drawer.component';
           <app-side-drawer></app-side-drawer>
         </div>
         <div class="form-section">
-          <h1>Task Creation Form</h1>
-          <app-task-creation-form></app-task-creation-form>
+          <h1>{{ activeItem }}</h1>
+
+          <ng-container [ngSwitch]="activeItem">
+            <app-task-creation-form
+              *ngSwitchCase="'Tasks'"
+            ></app-task-creation-form>
+            <app-project-creation-form
+              *ngSwitchCase="'Project'"
+            ></app-project-creation-form>
+            <p *ngSwitchCase="'Work Logs'">Work Logs component placeholder</p>
+            <p *ngSwitchCase="'Performance'">
+              Performance component placeholder
+            </p>
+            <p *ngSwitchCase="'Settings'">Settings component placeholder</p>
+            <p *ngSwitchDefault>Select a section from the side drawer.</p>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -47,7 +70,7 @@ import { SideDrawerComponent } from './side-drawer/side-drawer.component';
         display: flex;
         gap: 2rem;
         align-items: flex-start;
-        height: calc(100vh - 64px); /* Assuming navbar height is 64px */
+        height: calc(100vh - 64px);
       }
 
       .form-section {
@@ -57,11 +80,10 @@ import { SideDrawerComponent } from './side-drawer/side-drawer.component';
       }
 
       .drawer-section {
-        flex: 0 0 300px; /* Fixed width of 300px, no grow/shrink */
+        flex: 0 0 300px;
         min-width: 300px;
       }
 
-      /* Responsive design for smaller screens */
       @media (max-width: 768px) {
         .content-row {
           flex-direction: column;
@@ -74,6 +96,14 @@ import { SideDrawerComponent } from './side-drawer/side-drawer.component';
     `,
   ],
 })
-export class AppComponent {
-  title = 'task-management-system';
+export class AppComponent implements OnInit {
+  activeItem: string = '';
+
+  constructor(private sideDrawerService: SideDrawerService) {}
+
+  ngOnInit(): void {
+    this.sideDrawerService.activeItem$.subscribe((label) => {
+      this.activeItem = label;
+    });
+  }
 }

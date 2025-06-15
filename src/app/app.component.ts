@@ -2,27 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
 import { NavbarComponent } from './navbar/navbar.component';
 import { TaskCreationFormComponent } from './task-creation-form/task-creation-form.component';
 import { SideDrawerComponent } from './side-drawer/side-drawer.component';
 import { ProjectCreationFormComponent } from './project-creation-form/project-creation-form.component';
-
 import { SideDrawerService } from './side-drawer/side-drawer.service';
+import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { TaskBoardComponent } from "./task-dashboard/task-dashboard.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterOutlet,
     HttpClientModule,
     NavbarComponent,
     TaskCreationFormComponent,
     ProjectCreationFormComponent,
     SideDrawerComponent,
-  ],
+    ProjectDashboardComponent,
+    TaskBoardComponent
+],
   template: `
+  <app-task-board></app-task-board>
     <app-navbar></app-navbar>
     <div class="app-container">
       <div class="content-row">
@@ -31,14 +34,16 @@ import { SideDrawerService } from './side-drawer/side-drawer.service';
         </div>
         <div class="form-section">
           <h1>{{ activeItem }}</h1>
-
           <ng-container [ngSwitch]="activeItem">
             <app-task-creation-form
               *ngSwitchCase="'Tasks'"
             ></app-task-creation-form>
-            <app-project-creation-form
+            <!-- <app-project-creation-form
               *ngSwitchCase="'Project'"
-            ></app-project-creation-form>
+            ></app-project-creation-form> -->
+            <app-project-dashboard
+              *ngSwitchCase="'Project'"
+            ></app-project-dashboard>
             <p *ngSwitchCase="'Work Logs'">Work Logs component placeholder</p>
             <p *ngSwitchCase="'Performance'">
               Performance component placeholder

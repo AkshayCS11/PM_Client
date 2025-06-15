@@ -6,10 +6,11 @@ import { MenuItem, NavigationEvent } from './side-drawer.interface';
   providedIn: 'root',
 })
 export class SideDrawerService {
-  private activeItemSubject = new BehaviorSubject<string>('Performance');
+  private activeItemSubject = new BehaviorSubject<string>('Project');
   private navigationSubject = new BehaviorSubject<NavigationEvent | null>(null);
 
   public activeItem$ = this.activeItemSubject.asObservable();
+
   public navigation$ = this.navigationSubject.asObservable();
 
   private menuItems: MenuItem[] = [
@@ -24,19 +25,6 @@ export class SideDrawerService {
       label: 'Tasks',
       icon: '👤',
       route: '/tasks',
-    },
-    {
-      id: 'work-logs',
-      label: 'Work Logs',
-      icon: '📄',
-      route: '/work-logs',
-    },
-    {
-      id: 'performance',
-      label: 'Performance',
-      icon: '⚙️',
-      route: '/performance',
-      isActive: true,
     },
     {
       id: 'settings',
